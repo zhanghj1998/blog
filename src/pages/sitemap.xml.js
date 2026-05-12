@@ -18,7 +18,7 @@ export async function GET() {
     ...posts.map(
       (post) => `
     <url>
-      <loc>${SITE.url}/posts/${post.id}</loc>
+      <loc>${SITE.url}/posts/${post.id.replace(/\.md$/, "")}</loc>
       <lastmod>${post.data.date.toISOString()}</lastmod>
       <changefreq>monthly</changefreq>
       <priority>0.6</priority>

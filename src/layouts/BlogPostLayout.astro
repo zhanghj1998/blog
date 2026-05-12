@@ -16,7 +16,7 @@ const minutes = readingTime(body);
 ---
 
 <BaseLayout title={title} description={description} type="article">
-  <article class="max-w-5xl mx-auto px-4 py-16">
+  <article class="max-w-3xl mx-auto px-4 py-16">
     <header class="mb-12">
       <h1 class="text-4xl font-extrabold text-gray-900 dark:text-gray-100 mb-6 leading-tight tracking-tight">
         {title}
@@ -34,8 +34,19 @@ const minutes = readingTime(body);
         )
       }
     </header>
-    <div class="prose prose-gray dark:prose-invert max-w-none leading-relaxed prose-headings:font-bold prose-a:text-accent-600 dark:prose-a:text-accent-400 prose-code:before:content-none prose-code:after:content-none">
-      {post.body}
+    <div class="prose prose-gray dark:prose-invert max-w-none prose-lg
+      prose-headings:font-bold prose-headings:tracking-tight
+      prose-h2:mt-16 prose-h2:mb-6 prose-h2:text-2xl prose-h2:pb-3 prose-h2:border-b prose-h2:border-gray-200 dark:prose-h2:border-gray-700
+      prose-h3:mt-10 prose-h3:mb-4 prose-h3:text-lg
+      prose-p:my-5 prose-p:leading-loose prose-p:text-gray-700 dark:prose-p:text-gray-300
+      prose-a:text-accent-600 dark:prose-a:text-accent-400 prose-a:font-medium
+      prose-code:before:content-none prose-code:after:content-none prose-code:px-1.5 prose-code:py-0.5 prose-code:rounded prose-code:bg-gray-100 dark:prose-code:bg-gray-800 prose-code:text-sm prose-code:font-normal
+      prose-pre:rounded-xl prose-pre:border prose-pre:border-gray-200 dark:prose-pre:border-gray-700 prose-pre:my-8
+      prose-img:rounded-xl
+      prose-li:my-2 prose-li:text-gray-700 dark:prose-li:text-gray-300
+      prose-blockquote:my-8 prose-blockquote:border-l-accent-500 prose-blockquote:bg-accent-50/50 dark:prose-blockquote:bg-accent-950/30 prose-blockquote:py-3 prose-blockquote:px-5 prose-blockquote:rounded-r-lg prose-blockquote:not-italic
+      prose-strong:text-gray-900 dark:prose-strong:text-gray-100">
+      <slot />
     </div>
     <div class="mt-16 pt-8 border-t border-gray-100 dark:border-gray-800">
       <a href="/posts" class="inline-flex items-center gap-2 text-accent-600 dark:text-accent-400 hover:text-accent-700 dark:hover:text-accent-300 font-medium no-underline">
@@ -44,3 +55,37 @@ const minutes = readingTime(body);
     </div>
   </article>
 </BaseLayout>
+
+<style>
+  /* 表格样式 */
+  article table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 1.5rem 0;
+    font-size: 0.9rem;
+  }
+  article thead th {
+    background: #f3f4f6;
+    padding: 0.75rem 1rem;
+    text-align: left;
+    font-weight: 600;
+    border-bottom: 2px solid #d1d5db;
+  }
+  .dark article thead th {
+    background: #1f2937;
+    border-bottom-color: #374151;
+  }
+  article td, article th {
+    padding: 0.6rem 1rem;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  .dark article td, .dark article th {
+    border-bottom-color: #1f2937;
+  }
+  article tbody tr:hover {
+    background: #f9fafb;
+  }
+  .dark article tbody tr:hover {
+    background: #111827;
+  }
+</style>

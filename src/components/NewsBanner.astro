@@ -1,0 +1,95 @@
+---
+// AI 资讯简报 — 从 Cloudflare Worker 拉取 AI 总结后的内容
+---
+
+<div id="news-banner" class="hidden max-w-5xl mx-auto px-4 py-10">
+  <!-- 标题栏 -->
+  <div class="flex items-center gap-3 mb-8">
+    <span class="h-8 w-1 rounded-full bg-emerald-500"></span>
+    <h2 class="text-2xl font-bold text-gray-900 dark:text-gray-100">AI 资讯简报</h2>
+    <span class="text-xs text-gray-400 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">AI 总结</span>
+  </div>
+
+  <!-- 加载中 -->
+  <div id="news-loading" class="flex items-center gap-2 py-8 text-sm text-gray-400">
+    <span class="inline-block w-4 h-4 border-2 border-accent-500 border-t-transparent rounded-full animate-spin"></span>
+    正在生成今日 AI 资讯简报...
+  </div>
+
+  <!-- 简报卡片网格 -->
+  <div id="news-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+  </div>
+</div>
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); } }
+  .animate-spin { animation: spin 0.8s linear infinite; }
+</style>
+
+<script>
+  (function () {
+    const banner = document.getElementById("news-banner");
+    const grid = document.getElementById("news-grid");
+    const loading = document.getElementById("news-loading");
+
+    const NEWS_URL = "/ai-news.json";
+
+    function timeAgo(dateStr) {
+      const diff = Date.now() - new Date(dateStr).getTime();
+      const hours = Math.floor(diff / 3600000);
+      if (hours < 1) return "刚刚";
+      if (hours < 24) return `${hours}小时前`;
+      return `${Math.floor(hours / 24)}天前`;
+    }
+
+    function render(items) {
+      if (!items.length) {
+        loading.textContent = "暂无 AI 资讯";
+        return;
+      }
+
+      grid.innerHTML = items
+        .map(
+          (item, i) => `
+          <a href="${item.link}" target="_blank" rel="noopener"
+             class="group block p-5 rounded-xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 hover:border-accent-200 dark:hover:border-accent-800 hover:shadow-md transition-all no-underline">
+            <div class="flex items-start gap-3 mb-3">
+              <span class="flex-shrink-0 flex items-center justify-center w-6 h-6 rounded-full bg-accent-100 dark:bg-accent-900/40 text-accent-700 dark:text-accent-300 text-xs font-bold">
+                ${i + 1}
+              </span>
+              <h3 class="text-sm font-bold text-gray-900 dark:text-gray-100 group-hover:text-accent-600 dark:group-hover:text-accent-400 leading-snug">
+                ${item.title}
+              </h3>
+            </div>
+            <p class="text-xs text-gray-500 dark:text-gray-400 leading-relaxed ml-9">
+              ${item.summary}
+            </p>
+            <div class="flex items-center gap-2 mt-3 ml-9 text-xs text-gray-400">
+              <span>${item.source || ""}</span>
+              <span>·</span>
+              <span>${timeAgo(item.pubDate)}</span>
+            </div>
+          </a>
+        `
+        )
+        .join("");
+
+      loading.classList.add("hidden");
+      banner.classList.remove("hidden");
+    }
+
+    async function loadNews() {
+      try {
+        const resp = await fetch(NEWS_URL);
+        if (!resp.ok) throw new Error("Worker unavailable");
+        const data = await resp.json();
+        if (data.error) throw new Error(data.error);
+        render(data.items);
+      } catch {
+        loading.textContent = "资讯加载失败，请稍后再试";
+      }
+    }
+
+    loadNews();
+  })();
+</script>

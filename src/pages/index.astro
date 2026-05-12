@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import BaseLayout from "@/layouts/BaseLayout.astro";
 import PostCard from "@/components/PostCard.astro";
 import { SITE } from "@/utils/constants";
+import NewsBanner from "@/components/NewsBanner.astro";
 
 const allPosts = await getCollection("posts", ({ data }) => !data.draft);
 const posts = allPosts
@@ -42,6 +43,8 @@ const tags = Object.entries(tagCounts)
       </div>
     </div>
   </section>
+
+  {SITE.showAINews && <NewsBanner />}
 
   <!-- 最新文章 -->
   <section class="max-w-5xl mx-auto px-4 py-20">
