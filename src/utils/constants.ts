@@ -1,8 +1,8 @@
 export const SITE = {
-  title: "我的博客",
+  title: "Zeal-Hope-Journey",
   description: "写写字，记录所学所想",
-  author: "博主",
-  url: "https://blog.example.com",
+  author: "jaysong",
+  url: "https://blog.timoorjzhj.workers.dev/",
   lang: "zh-CN",
   postsPerPage: 10,
 } as const;
