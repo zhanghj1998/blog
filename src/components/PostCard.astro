@@ -1,0 +1,43 @@
+---
+import { formatDate } from "@/utils/dateFormat";
+import { readingTime } from "@/utils/readingTime";
+import TagBadge from "@/components/TagBadge.astro";
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  post: CollectionEntry<"posts">;
+}
+
+const { post } = Astro.props;
+const { title, date, description, tags } = post.data;
+const body = post.body || "";
+const minutes = readingTime(body);
+---
+
+<article class="group py-8 border-b border-gray-100 dark:border-gray-800 last:border-0">
+  <div class="flex flex-col sm:flex-row sm:items-start sm:gap-8">
+    <div class="flex-1">
+      <div class="flex items-center gap-3 text-sm text-gray-400 dark:text-gray-500 mb-3">
+        <time datetime={date.toISOString()}>{formatDate(date)}</time>
+        <span class="w-1 h-1 rounded-full bg-gray-300 dark:bg-gray-600"></span>
+        <span>阅读 {minutes} 分钟</span>
+      </div>
+      <h2 class="text-xl font-bold mb-3 leading-snug">
+        <a href={`/posts/${post.id}`} class="text-gray-900 dark:text-gray-100 hover:text-accent-600 dark:hover:text-accent-400 transition-colors no-underline">
+          {title}
+        </a>
+      </h2>
+      <p class="text-gray-500 dark:text-gray-400 leading-relaxed mb-4">{description}</p>
+      {tags.length > 0 && (
+        <div class="flex flex-wrap gap-2">
+          {tags.map((tag) => <TagBadge {tag} />)}
+        </div>
+      )}
+    </div>
+    <div class="hidden sm:flex items-center pt-2">
+      <a href={`/posts/${post.id}`} class="flex items-center justify-center w-10 h-10 rounded-full border border-gray-200 dark:border-gray-700 text-gray-400 group-hover:border-accent-300 group-hover:text-accent-500 dark:group-hover:border-accent-700 dark:group-hover:text-accent-400 transition-colors no-underline">
+        &rarr;
+      </a>
+    </div>
+  </div>
+</article>

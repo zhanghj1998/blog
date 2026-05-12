@@ -1,0 +1,43 @@
+---
+import { SITE } from "@/utils/constants";
+
+interface Props {
+  title?: string;
+  description?: string;
+  image?: string;
+  type?: "website" | "article";
+}
+
+const {
+  title,
+  description = SITE.description,
+  image = `${SITE.url}/images/og-default.png`,
+  type = "website",
+} = Astro.props;
+
+const pageTitle = title ? `${title} | ${SITE.title}` : SITE.title;
+---
+
+<title>{pageTitle}</title>
+<meta name="description" content={description} />
+
+<!-- Open Graph -->
+<meta property="og:title" content={pageTitle} />
+<meta property="og:description" content={description} />
+<meta property="og:type" content={type} />
+<meta property="og:image" content={image} />
+<meta property="og:url" content={new URL(Astro.url.pathname, SITE.url).href} />
+<meta property="og:site_name" content={SITE.title} />
+<meta property="og:locale" content="zh_CN" />
+
+<!-- Twitter Card -->
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content={pageTitle} />
+<meta name="twitter:description" content={description} />
+<meta name="twitter:image" content={image} />
+
+<!-- Canonical -->
+<link rel="canonical" href={new URL(Astro.url.pathname, SITE.url).href} />
+
+<!-- RSS -->
+<link rel="alternate" type="application/rss+xml" title={SITE.title} href="/rss.xml" />

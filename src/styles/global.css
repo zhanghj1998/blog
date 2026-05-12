@@ -1,0 +1,29 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    font-family: "PingFang SC", "Noto Sans SC", "Microsoft YaHei", "Helvetica Neue",
+      Arial, sans-serif;
+    line-height: 1.8;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+}
+
+::selection {
+  background-color: #c7d2fe;
+  color: #312e81;
+}
+
+@media (prefers-color-scheme: dark) {
+  ::selection {
+    background-color: #4338ca;
+    color: #eef2ff;
+  }
+}

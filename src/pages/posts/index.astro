@@ -1,0 +1,26 @@
+---
+import { getCollection } from "astro:content";
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import PostCard from "@/components/PostCard.astro";
+
+const allPosts = await getCollection("posts", ({ data }) => !data.draft);
+const posts = allPosts.sort(
+  (a, b) => b.data.date.getTime() - a.data.date.getTime()
+);
+---
+
+<BaseLayout title="文章列表">
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <div class="flex items-center gap-3 mb-12">
+      <span class="h-8 w-1 rounded-full bg-accent-500"></span>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">全部文章</h1>
+    </div>
+    {posts.length > 0 ? (
+      <div>
+        {posts.map((post) => <PostCard {post} />)}
+      </div>
+    ) : (
+      <p class="text-gray-400 dark:text-gray-500">还没有文章。</p>
+    )}
+  </div>
+</BaseLayout>

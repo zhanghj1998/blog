@@ -1,0 +1,24 @@
+---
+import BaseLayout from "@/layouts/BaseLayout.astro";
+import { SITE } from "@/utils/constants";
+---
+
+<BaseLayout title="关于">
+  <div class="max-w-5xl mx-auto px-4 py-16">
+    <div class="flex items-center gap-3 mb-12">
+      <span class="h-8 w-1 rounded-full bg-accent-500"></span>
+      <h1 class="text-3xl font-bold text-gray-900 dark:text-gray-100">关于</h1>
+    </div>
+    <div class="prose prose-gray dark:prose-invert max-w-none leading-relaxed prose-a:text-accent-600 dark:prose-a:text-accent-400">
+      <p class="text-lg text-gray-500 dark:text-gray-400">你好，我是 {SITE.author}。</p>
+      <p>这里是我写字的地方，记录学习、思考和生活的点滴。</p>
+      <h2>关于这个博客</h2>
+      <p>使用 <a href="https://astro.build">Astro</a> 构建，部署在 <a href="https://pages.cloudflare.com">Cloudflare Pages</a> 上。</p>
+      <h2>联系我</h2>
+      <ul>
+        <li>GitHub: <a href="https://github.com">@yourname</a></li>
+        <li>Email: yourname@example.com</li>
+      </ul>
+    </div>
+  </div>
+</BaseLayout>
